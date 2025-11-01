@@ -16,6 +16,6 @@ async def startup_event():
     await init_db()
 
     # Генерация фиктивных данных
-#    await generate_fake_data()
+    await generate_fake_data()
 
 app.include_router(router)
