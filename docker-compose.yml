@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  web:
+    build: .
+    container_name: spimex-api
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+      - redis
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spimexdata
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+  db:
+    image: postgres:15
+    container_name: spimex-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spimexdata
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    container_name: spimex-cache
+    ports:
+      - "6379:6379"
+
+volumes:
+  pg-data:
