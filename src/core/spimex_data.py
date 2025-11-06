@@ -3,13 +3,13 @@ from datetime import datetime
 import random
 from faker import Faker
 
-from .database import get_session
 from .models import TradingResult
 
 
 fake = Faker('ru_RU')
 
-async def generate_fake_data():
+
+async def generate_fake_data(session):
     result = []
     for _ in range(500):
         trading_result = dict(
@@ -25,14 +25,13 @@ async def generate_fake_data():
             date=fake.date_time_between(start_date="-1y", end_date="now"),
             created_on=datetime.utcnow(),
             updated_on=datetime.utcnow()
-        )  # Конвертируем экземпляр TradingResult в словарь
+        )
         result.append(trading_result)
-    async for session in get_session():  # Используется конструкция async for
-        try:
-            await session.execute(TradingResult.__table__.insert().values(result))
-            await session.commit()
-            print("Фиктивные записи успешно созданы.")
-        except Exception as e:
-            print(f"Произошла ошибка: {e}")
-            await session.rollback()
+    try:
+        await session.execute(TradingResult.__table__.insert().values(result))
+        await session.commit()
+        print("Фиктивные записи успешно созданы.")
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+        await session.rollback()
 

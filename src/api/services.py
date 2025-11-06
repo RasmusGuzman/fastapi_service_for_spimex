@@ -8,12 +8,11 @@ from src.core.database import get_session, logger
 
 
 
-async def get_data() -> list[TradingResultSchema]:
-    async for session in get_session():
-        stmt = select(TradingResult).limit(100)
-        result = await session.execute(stmt)
-        rows = result.scalars().fetchall()
-        return [TradingResultSchema.model_validate(row) for row in rows]
+async def get_data(session) -> list[TradingResultSchema]:
+    stmt = select(TradingResult).limit(100)
+    result = await session.execute(stmt)
+    rows = result.scalars().fetchall()
+    return [TradingResultSchema.model_validate(row) for row in rows]
 
 
 async def fetch_last_trading_dates(count: int) -> List[datetime]:

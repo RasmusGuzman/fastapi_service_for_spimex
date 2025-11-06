@@ -31,5 +31,12 @@ services:
     ports:
       - "6379:6379"
 
+  tests:
+    build: .
+    command: pytest tests/
+    depends_on:
+      - db
+      - redis
+
 volumes:
   pg-data:
