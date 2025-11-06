@@ -12,7 +12,6 @@ def event_loop():
     yield loop
     loop.close()
 
-# Перекрытие get_session (уровень сессии)
 @pytest_asyncio.fixture(autouse=True, scope="session")
 def _override_get_session():
     async def _get_test_session():
@@ -20,7 +19,6 @@ def _override_get_session():
             yield session
     app.dependency_overrides[get_session] = _get_test_session
 
-# Подготовка базы данных (уровень сессии)
 @pytest_asyncio.fixture(scope="session", autouse=True)
 async def prepare_database(event_loop):
     async with test_engine.begin() as conn:
@@ -30,13 +28,11 @@ async def prepare_database(event_loop):
     async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
 
-# Асинхронная сессия базы данных (уровень функции)
 @pytest_asyncio.fixture
 async def async_session():
     async with TestingSessionLocal() as session:
         yield session
 
-# Тестовый клиент FastAPI (уровень функции)
 @pytest_asyncio.fixture
 async def ac():
     transport = ASGITransport(app=app)

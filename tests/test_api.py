@@ -5,7 +5,6 @@ def test_sanity_check():
     assert True
 
 
-# Тестирование эндпоинта /last-trading-dates/{count}
 @pytest.mark.asyncio
 async def test_last_trading_dates(ac):
     response = await ac.get("/last-trading-dates/5")
@@ -15,7 +14,6 @@ async def test_last_trading_dates(ac):
         assert isinstance(date, str)
         datetime.strptime(date, "%Y-%m-%dT%H:%M:%S")
 
-# Тестирование эндпоинта /dynamics/
 @pytest.mark.asyncio
 async def test_dynamics(ac, populate_db):
     start_date = datetime.now() - timedelta(days=30)
@@ -29,7 +27,6 @@ async def test_dynamics(ac, populate_db):
         assert "volume" in item
         assert "total" in item
 
-# Тестирование эндпоинта /trading-results/
 @pytest.mark.asyncio
 async def test_trading_results(ac, populate_db):
     response = await ac.get("/trading-results/")
@@ -41,7 +38,6 @@ async def test_trading_results(ac, populate_db):
         assert "volume" in item
         assert "total" in item
 
-# Тестирование фильтрации
 @pytest.mark.asyncio
 async def test_filtered_trading_results(ac, populate_db):
     response = await ac.get("/trading-results/?oil_id=some_oil_id")
@@ -49,7 +45,6 @@ async def test_filtered_trading_results(ac, populate_db):
     data = response.json()
     assert data == []
 
-# Тестирование корневого эндпоинта /
 @pytest.mark.asyncio
 async def test_root(ac, populate_db):
     response = await ac.get("/")

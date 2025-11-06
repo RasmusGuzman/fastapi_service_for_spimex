@@ -3,9 +3,7 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 class TradingResultSchema(BaseModel):
-    """
-    Модель для представления результатов торгов.
-    """
+
     exchange_product_id: Optional[str] = None
     exchange_product_name: Optional[str] = None
     oil_id: Optional[str] = None
@@ -19,7 +17,7 @@ class TradingResultSchema(BaseModel):
     created_on: Optional[datetime] = None
     updated_on: Optional[datetime] = None
     class Config:
-        from_attributes = True  # Используем метаданные моделей SQLAlchemy
+        from_attributes = True
 
 
 class DatesResponse(BaseModel):
