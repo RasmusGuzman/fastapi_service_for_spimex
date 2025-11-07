@@ -22,7 +22,7 @@ async def test_last_trading_dates(ac):
             pytest.fail(f"Невалидная дата '{date_str}': {e}")
 
 @pytest.mark.asyncio
-async def test_trading_results(ac, populate_db):
+async def test_trading_results(ac):
     response = await ac.get(API_URLS["root"])
     assert response.status_code == 200
     data = response.json()
@@ -34,7 +34,7 @@ async def test_trading_results(ac, populate_db):
 
 
 @pytest.mark.asyncio
-async def test_root(ac, populate_db):
+async def test_root(ac):
     response = await ac.get("/")
     assert response.status_code == 200
     data = response.json()
@@ -46,7 +46,7 @@ async def test_root(ac, populate_db):
 
 @pytest.mark.asyncio
 @freeze_time("2025-10-01")
-async def test_dynamics_invalid_dates(ac, populate_db):
+async def test_dynamics_invalid_dates(ac):
 
     params = {
         "start_date": "invalid",
@@ -59,7 +59,7 @@ async def test_dynamics_invalid_dates(ac, populate_db):
 
 @pytest.mark.asyncio
 @freeze_time("2025-10-01")
-async def test_dynamics_2(ac, populate_db):
+async def test_dynamics_2(ac):
     start_date = datetime(2025, 9, 1)
     end_date = datetime(2025, 10, 1)
 
@@ -94,7 +94,7 @@ async def test_dynamics_2(ac, populate_db):
 
 @pytest.mark.asyncio
 @freeze_time("2025-10-01")
-async def test_filtered_trading_results(ac, populate_db):
+async def test_filtered_trading_results(ac, fixture_with_request):
     params = {"oil_id": "111111111111111"}
     response = await ac.get(API_URLS["trading_results"], params=params)
 

@@ -33,7 +33,7 @@ services:
 
   tests:
     build: .
-    command: pytest tests/
+    command: pytest tests -s
     depends_on:
       - db
       - redis
