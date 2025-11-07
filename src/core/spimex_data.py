@@ -22,7 +22,7 @@ async def generate_fake_data(session):
             volume=round(random.uniform(1000, 10000), 2),
             total=round(random.uniform(1000000, 10000000), 2),
             count=random.randint(1, 100),
-            date=fake.date_time_between(start_date="-1y", end_date="now"),
+            date=fake.date_time_between(start_date = datetime(2024, 10, 1), end_date=datetime(2025, 11, 8)),
             created_on=datetime.utcnow(),
             updated_on=datetime.utcnow()
         )

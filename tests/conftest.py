@@ -6,6 +6,15 @@ from src.core.database import Base, get_session
 from src.core.database_for_tests import test_engine, TestingSessionLocal
 from src.core.spimex_data import generate_fake_data
 
+
+API_URLS = {
+    "last_trading_dates": "/last-trading-dates/",
+    "dynamics": "/dynamics/",
+    "trading_results": "/trading-results/",
+    "root": "/",
+}
+
+
 @pytest_asyncio.fixture(scope="session")
 def event_loop():
     loop = asyncio.new_event_loop()
@@ -43,3 +52,4 @@ async def ac():
 async def populate_db(async_session):
     await generate_fake_data(async_session)
     yield
+
